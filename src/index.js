@@ -107,7 +107,7 @@ export default class FloatAnchor extends React.Component<Props, State> {
     }
 
     const portalEl = this._portalEl = document.createElement('div');
-    portalEl.className = this.props.floatContainerClassName || '';
+    portalEl.className = this.getContainerClassNames(this.props.floatContainerClassName);
     portalEl.style.zIndex = String(this.props.zIndex);
     portalEl.style.position = 'fixed';
 
@@ -148,6 +148,10 @@ export default class FloatAnchor extends React.Component<Props, State> {
     };
   }
 
+  getContainerClassNames(userClassNames?: string): string {
+    return `react-float-anchor${userClassNames ? ` ${userClassNames}` : ''}`;
+  }
+
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     // If the only thing changed is state.choice *and* typeof props.float !== 'function', don't re-render.
     // If nothing has changed, allow the re-render so we keep the same behavior on a plain forceUpdate of a parent.
@@ -178,7 +182,7 @@ export default class FloatAnchor extends React.Component<Props, State> {
           this._mountPortalEl();
         }
         if (prevProps.floatContainerClassName !== this.props.floatContainerClassName) {
-          portalEl.className = this.props.floatContainerClassName || '';
+          portalEl.className = this.getContainerClassNames(this.props.floatContainerClassName);
         }
         if (prevProps.zIndex !== this.props.zIndex) {
           portalEl.style.zIndex = String(this.props.zIndex);
